@@ -2,6 +2,11 @@
 // This is the initial file that runs. It is used to load everything for Scythe
 import config from "./data/config.js";
 import { world } from "@minecraft/server";
+import { bridgeDirect } from "./direct/index.js"
+
+bridgeDirect.events.directInitialize.subscribe(()=>{
+	console.log("Scythe connected to discord!");
+})
 
 // Set dynamic properties
 if(!world.getDynamicProperty("globalmute")) {

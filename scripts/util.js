@@ -1,6 +1,7 @@
 // @ts-check
 import config from "./data/config.js";
 import { world, Entity, Player } from "@minecraft/server";
+import { bridgeDirect } from "./direct/index.js";
 
 /**
  * @name flag
@@ -95,7 +96,9 @@ export function flag(player, check, checkType, hackType, debug, shouldTP = false
 
     const flagMessage = `§r§6[§aScythe§6]§r ${player.name}§r §1has failed §7(${hackType}) §4${check}/${checkType.toUpperCase()}${debug ? ` §7(${debug}§r§7)§4`: ""}. VL= ${++currentVl}`;
 
-    if(config.logAlertsToConsole) console.log(flagMessage.replace(/§./g, ""));
+    if (config.logAlertsToConsole) console.log(flagMessage.replace(/§./g, ""));
+    if (config.logAlertsToDiscord && bridgeDirect.ready) bridgeDirect.sendMessage(config.discordPingRoles.map(r=>"<@"+r+">").join(" ")+flagMessage.replace(/§./g, ""), "Scythe");
+
     tellAllStaff(flagMessage, ["notify"]);
 
     setScore(player, scoreboardObjective, currentVl);
@@ -400,6 +403,9 @@ export function removeOp(initiator, player) {
  * @param {Array} tags - What tags should be sent the message
  */
 export function tellAllStaff(message, tags = ["op"]) {
+    if (config.discordStaffLogs && bridgeDirect.ready){
+        bridgeDirect.sendMessage(message.replace(/§./g, ""), "Scynthe-stafflog", "https://raw.githubusercontent.com/Scythe-Anticheat/Scythe-Anticheat/refs/heads/main/pack_icon.png")
+    }
     for(const player of world.getPlayers({tags})) {
         player.sendMessage(message);
     }

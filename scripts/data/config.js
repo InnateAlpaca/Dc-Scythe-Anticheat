@@ -7,7 +7,7 @@ export default
 	Internally we still call it the config version, however it should be referred to as the config revision.
 	*/
 	"version": "6",
-	"debug": true,
+	"debug": false,
 	// If checks can auto-ban
 	"autoban": true,
 	"flagWhitelist": [],
@@ -18,8 +18,14 @@ export default
 	*/
 	"disableFlagsFromScytheOp": false,
 	"logAlertsToConsole": true,
+	/**Send alerts do Discord. Only available on bds with experiments on and BedrockBridge installed.*/
+	"logAlertsToDiscord": true,
+	/**Role-id to be pinged on discord for scynthe logs. @type {string[]}*/
+	"discordPingRoles": [],
+	/**Send also all regular staff logs to discord.*/
+	"discordStaffLogs": true,
 	"customcommands": {
-		"prefix": "!",
+		"prefix": ".",
 		"sendInvalidCommandMsg": false,
 		"ban": {
 			"enabled": true,
